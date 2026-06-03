@@ -50,7 +50,7 @@ A full-stack web application for managing ceremony attendance confirmations. Bui
 
 ```bash
 git clone <your-repo>
-cd ceremony-rsvp
+cd 
 npm install
 ```
 
@@ -59,13 +59,11 @@ npm install
 Open MySQL and run the setup script:
 
 ```bash
-mysql -u root -p < setup.sql
 ```
 
 Or manually in MySQL Workbench / CLI:
 
 ```sql
-CREATE DATABASE ceremony_rsvp;
 ```
 
 Sequelize will auto-create the `attendees` table on first run (`sync: { alter: true }`).
@@ -75,16 +73,7 @@ Sequelize will auto-create the `attendees` table on first run (`sync: { alter: t
 Edit `.env` with your settings:
 
 ```env
-# Database
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=ceremony_rsvp
-DB_USER=root
-DB_PASS=your_mysql_password
 
-# App
-PORT=3000
-SESSION_SECRET=change_this_to_something_random
 
 
 > ⚠️ **Change the admin credentials and session secret before deploying!**
