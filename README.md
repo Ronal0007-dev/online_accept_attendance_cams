@@ -86,10 +86,6 @@ DB_PASS=your_mysql_password
 PORT=3000
 SESSION_SECRET=change_this_to_something_random
 
-# Admin Login
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin123
-```
 
 > ⚠️ **Change the admin credentials and session secret before deploying!**
 
@@ -144,12 +140,7 @@ ceremony-rsvp/
 
 ---
 
-## 🔐 Admin Credentials (Default)
 
-| Field | Value |
-|-------|-------|
-| Username | `admin` |
-| Password | `admin123` |
 
 Change these in `.env` before going live.
 
