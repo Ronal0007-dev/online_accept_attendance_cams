@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  .login-page
+    .login-bg
+      .login-bg__line(style="--delay:0s")
+      .login-bg__line(style="--delay:0.5s")
+      .login-bg__line(style="--delay:1s")
+      .login-bg__line(style="--delay:1.5s")
+
+    .login-card
+      .login-card__header
+        .login-card__logo ✦
+        h1.login-card__title Admin Portal
+        p.login-card__subtitle Ceremony RSVP Management
+
+      if error
+        .login-alert= error
+
+      form.login-form(action="/admin/login" method="POST")
+        .login-form__group
+          label.login-form__label(for="username") Username
+          input.login-form__input(
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter username"
+            required
+            autocomplete="username"
+          )
+
+        .login-form__group
+          label.login-form__label(for="password") Password
+          .login-form__input-wrap
+            input.login-form__input(
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter password"
+              required
+              autocomplete="current-password"
+            )
+
+        button.login-btn(type="submit")
+          | Sign In
+          span →
+
+    .login-back
+      a(href="/") ← Back to RSVP Form

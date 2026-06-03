@@ -1,0 +1,97 @@
+extends layout
+
+block content
+  .admin-page
+    //- Sidebar
+    aside.sidebar
+      .sidebar__brand
+        span.sidebar__brand-icon ✦
+        span.sidebar__brand-text Ceremony
+      nav.sidebar__nav
+        a.sidebar__nav-item.sidebar__nav-item--active(href="/admin/dashboard")
+          span.sidebar__nav-icon 👥
+          span Attendees
+        a.sidebar__nav-item(href="/admin/print" target="_blank")
+          span.sidebar__nav-icon 🖨️
+          span Print List
+        a.sidebar__nav-item(href="/")
+          span.sidebar__nav-icon 📋
+          span RSVP Form
+        a.sidebar__nav-item.sidebar__nav-item--logout(href="/admin/logout")
+          span.sidebar__nav-icon 🚪
+          span Logout
+
+    //- Main Content
+    main.admin-main
+      .admin-main__header
+        .admin-main__title-wrap
+          h1.admin-main__title Attendee List
+          p.admin-main__subtitle Confirmed ceremony attendances
+        .admin-main__actions
+          button.btn-export(onclick="exportCSV()") ⬇ Export CSV
+          a.btn-print(href="/admin/print" target="_blank") 🖨 Print List
+
+      //- Stats
+      .admin-stats
+        .stat-card
+          span.stat-card__num= totalCount
+          span.stat-card__label Total Attendees
+        .stat-card
+          span.stat-card__num= attendees.filter(a => a.childName).length
+          span.stat-card__label With Children
+        .stat-card
+          span.stat-card__num= attendees.filter(a => !a.childName).length
+          span.stat-card__label Adults Only
+
+      //- Search bar
+      .admin-search
+        input.admin-search__input(
+          type="text"
+          id="searchInput"
+          placeholder="Search by name, phone..."
+          oninput="filterTable(this.value)"
+        )
+        span.admin-search__icon 🔍
+
+      //- Table
+      if attendees.length > 0
+        .admin-table-wrap
+          table.admin-table(id="attendeeTable")
+            thead
+              tr
+                th #
+                th First Name
+                th Last Name
+                th Child's Name
+                th Phone Number
+                th Submitted At
+                th Actions
+            tbody
+              each attendee, index in attendees
+                tr(data-id= attendee.id)
+                  td.td-num= index + 1
+                  td= attendee.firstName
+                  td= attendee.lastName
+                  td
+                    if attendee.childName
+                      span.badge-child= attendee.childName
+                    else
+                      span.td-none —
+                  td= attendee.phoneNumber
+                  td= new Date(attendee.submittedAt).toLocaleString('en-US', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
+                  td
+                    button.btn-delete(onclick=`deleteAttendee(${attendee.id}, this)`) Remove
+      else
+        .admin-empty
+          span.admin-empty__icon 📭
+          p.admin-empty__text No attendees have confirmed yet.
+          a.admin-empty__link(href="/") Go to RSVP Form
+
+    //- Delete Confirm Modal
+    .modal-overlay#deleteModal
+      .confirm-modal
+        h3.confirm-modal__title Confirm Removal
+        p.confirm-modal__text Are you sure you want to remove this attendee from the list?
+        .confirm-modal__actions
+          button.confirm-modal__cancel(onclick="closeDeleteModal()") Cancel
+          button.confirm-modal__confirm(id="confirmDeleteBtn") Yes, Remove

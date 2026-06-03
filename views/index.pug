@@ -1,0 +1,106 @@
+extends layout
+
+block content
+  .rsvp-page
+    .rsvp-bg
+      .rsvp-bg__orb.rsvp-bg__orb--1
+      .rsvp-bg__orb.rsvp-bg__orb--2
+      .rsvp-bg__orb.rsvp-bg__orb--3
+
+    .rsvp-container
+      header.rsvp-header
+        .rsvp-header__ornament
+          span CANON ANDREA MWAKA
+          span INTERNATINAL 
+          span SCHOOL
+        .rsvp-header__ornament
+          span#ceremony-title Year 11 & 13 Graduation Ceremony
+        h1.rsvp-header__title
+          span.rsvp-header__title-top You Are Cordially
+          span.rsvp-header__title-main Invited
+        p.rsvp-header__subtitle Please confirm your attendance at the ceremony by completing the form below.
+        .rsvp-header__ornament
+          span ✦
+          span ——
+          span ✦
+
+      if errors && errors.length
+        .alert.alert--error
+          ul
+            each err in errors
+              li= err.msg
+
+      form.rsvp-form(action="/rsvp" method="POST" id="rsvpForm")
+        .rsvp-form__grid
+          .form-group
+            label.form-label(for="firstName") First Name
+            span.form-required *
+            input.form-input(
+              type="text"
+              id="firstName"
+              name="firstName"
+              placeholder="Enter your first name"
+              value= formData.firstName || ''
+              required
+            )
+
+          .form-group
+            label.form-label(for="lastName") Last Name
+            span.form-required *
+            input.form-input(
+              type="text"
+              id="lastName"
+              name="lastName"
+              placeholder="Enter your last name"
+              value= formData.lastName || ''
+              required
+            )
+
+        .form-group
+          label.form-label(for="childName")
+            | Child's Name
+            span.form-optional  (Optional)
+          input.form-input(
+            type="text"
+            id="childName"
+            name="childName"
+            placeholder="Enter your child's name if attending"
+            value= formData.childName || ''
+          )
+
+        .form-group
+          label.form-label(for="phoneNumber") Phone Number
+          span.form-required *
+          input.form-input(
+            type="tel"
+            id="phoneNumber"
+            name="phoneNumber"
+            placeholder="+255 (747) 0000 000"
+            value= formData.phoneNumber || ''
+            required
+          )
+
+        button.rsvp-btn(type="submit")
+          span.rsvp-btn__text Confirm Attendance
+          span.rsvp-btn__icon →
+
+      footer.rsvp-footer
+        p We look forward to celebrating with you.
+
+  //- Success Modal
+  if success
+    .modal-overlay#successModal(data-open="true")
+      .modal
+        .modal__confetti
+          each i in [1,2,3,4,5,6,7,8,9,10,11,12]
+            span.confetti-piece(style=`--i:${i}`)
+        .modal__icon ✦
+        h2.modal__title Thank You!
+        p.modal__message
+          | Your attendance has been confirmed.
+          br
+          strong= ' ' + attendeeName
+          | , we look forward to seeing you at the ceremony!
+        button.modal__btn(onclick="closeModal()") Wonderful, See You There!
+  else
+    .modal-overlay#successModal
